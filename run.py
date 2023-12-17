@@ -16,5 +16,12 @@ class Board:
         self.type = type
         self.guesses = []
         self.ships = []
-
-  
+        
+    def ship_position(self):
+        for _ in range(self.num_ships):
+            while True:
+                ship_row = randint (0, self.size -1)
+                ship_col = randint (0, self.size -1)
+                if self.board[ship_row][ship_col] == "0":
+                    self.ships.append((ship_row, ship_col))
+                    break
