@@ -16,7 +16,7 @@ class Board:
         self.type = type
         self.guesses = []
         self.ships = []
-        
+
     def ship_position(self):
         for _ in range(self.num_ships):
             while True:
@@ -25,3 +25,30 @@ class Board:
                 if self.board[ship_row][ship_col] == "0":
                     self.ships.append((ship_row, ship_col))
                     break
+    
+    def get_player_move(self,guesses):
+        while True: 
+            try:
+                row = input("Pick a row (0-4):")
+                if row < 0 or row > 4:
+                    print("Incorrect coordinates. You have to pick a row between 0 and 4.")
+                    continue
+                col = input("Pick a column (0-4):")
+                if col < 0 or col > 4:
+                    print("Incorrect coordinates. You have to pick a column between 0 and 4.")
+                    continue
+
+                shot = 7 * row + col
+
+                if shot in guesses:
+                    print("You have already tried this coordinate. Please try another one.")
+                else:
+                    return shot
+            except ValueError:
+                print("Please pick a valid number.")
+
+for row in player_board.board:
+        print(" ".join(row))
+
+ player_move = player_board.get_player_move(player_board.guesses)
+player_board.guesses.append(player_move) 
