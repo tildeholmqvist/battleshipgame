@@ -50,5 +50,5 @@ class Board:
 for row in player_board.board:
         print(" ".join(row))
 
- player_move = player_board.get_player_move(player_board.guesses)
+player_move = player_board.get_player_move(player_board.guesses)
 player_board.guesses.append(player_move) 
