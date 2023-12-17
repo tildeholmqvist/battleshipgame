@@ -41,27 +41,6 @@ class Board:
                     self.ships.append((ship_row, ship_col))
                     break
 
-    def get_player_move(self, guesses):
-        while True:
-            try:
-                row = int(input("Pick a row (0-4):"))  # Convert input to int
-                if row < 0 or row > 4:
-                    print("Incorrect coordinates. You have to pick a row between 0 and 4.")
-                    continue
-                col = int(input("Pick a column (0-4):"))  # Convert input to int
-                if col < 0 or col > 4:
-                    print("Incorrect coordinates. You have to pick a column between 0 and 4.")
-                    continue
-
-                shot = 5 * row + col  # Changed 7 to 5 based on the 5x5 grid
-
-                if shot in guesses:
-                    print("You have already tried this coordinate. Please try another one.")
-                else:
-                    return shot
-            except ValueError:
-                print("Please pick a valid number.")
-
     def display_board(self, hit, miss):
         print("    THE BATTLEFIELD    ")
         print("    0  1  2  3  4 ")
@@ -74,10 +53,41 @@ class Board:
                 elif place in miss:
                     ch = " O "
                 else:
-                    ch = " # "
+                    ch = " * "
                 row += ch
                 place += 1
             print(x, "", row)
+    
+    def get_player_shot(self, guesses, computer_board):
+        while True:
+            try:
+                row = int(input("Pick a row (0-4):"))  # Convert input to int
+                if row < 0 or row > 4:
+                    print("Incorrect coordinates. You have to pick a row between 0 and 4.")
+                    continue
+                col = int(input("Pick a column (0-4):"))  # Convert input to int
+                if col < 0 or col > 4:
+                    print("Incorrect coordinates. You have to pick a column between 0 and 4.")
+                    continue
+
+                shot = 5 * row + col  
+
+                if shot in guesses:
+                    print("You have already tried this coordinate. Please try another one.")
+                else:
+                    if shot in computer_board.ships:
+                        print("That was a HIT!")
+                        computer_board.ships.remove(shot)
+                        guesses.append(shot)
+                        return True
+                    else:
+                        print("That was a MISS!")
+                        guesses.append(shot)
+                        return False
+            except ValueError:
+                print("Please pick a valid number.")
+
+
 
 
 size = 5
@@ -89,5 +99,12 @@ computer_board = Board(size, num_ships, "computer")
 player_board.welcome()
 player_board.ship_position()
 
+guesses = [] 
+player_shot_result = player_board.get_player_shot(guesses, computer_board)
+
+if player_shot_result:
+    player_board.display_board([], [player_shot_result]) 
+else:
+    player_board.display_board([], [player_shot_result])
 
 player_board.display_board([0, 1, 2], [3, 4, 5])

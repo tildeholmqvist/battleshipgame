@@ -26,7 +26,7 @@ class Board:
                     self.ships.append((ship_row, ship_col))
                     break
     
-    def get_player_move(self,guesses):
+    def player_move(self,guesses):
         while True: 
             try:
                 row = input("Pick a row (0-4):")
