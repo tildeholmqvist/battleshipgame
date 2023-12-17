@@ -42,7 +42,7 @@ class Board:
                     break
 
     def display_board(self, hit, miss):
-        print("    THE BATTLEFIELD    ")
+        print("\n THE BATTLEFIELD    \n")
         print("    0  1  2  3  4 ")
         place = 0
         for x in range(5):
@@ -61,7 +61,7 @@ class Board:
     def get_player_shot(self, guesses, computer_board):
         while True:
             try:
-                row = int(input("Pick a row (0-4):"))  # Convert input to int
+                row = int(input("\nPick a row (0-4):"))  # Convert input to int
                 if row < 0 or row > 4:
                     print("Incorrect coordinates. You have to pick a row between 0 and 4.")
                     continue
@@ -76,12 +76,12 @@ class Board:
                     print("You have already tried this coordinate. Please try another one.")
                 else:
                     if shot in computer_board.ships:
-                        print("That was a HIT!")
+                        print("\nThat was a HIT!\n")
                         computer_board.ships.remove(shot)
                         guesses.append(shot)
                         return True
                     else:
-                        print("That was a MISS!")
+                        print("\nThat was a MISS!\n")
                         guesses.append(shot)
                         return False
             except ValueError:
@@ -98,6 +98,8 @@ computer_board = Board(size, num_ships, "computer")
 
 player_board.welcome()
 player_board.ship_position()
+
+player_board.display_board([], [])
 
 guesses = [] 
 player_shot_result = player_board.get_player_shot(guesses, computer_board)
