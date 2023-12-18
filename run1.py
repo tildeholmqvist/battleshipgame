@@ -2,10 +2,15 @@ import random
 
 class Board:
     def __init__(self):
-        self.hit = []
-        self.miss = []
-        self.ships_found = 0
-        self.boats = self.generate_random_ships()
+        self.player_hit = []
+        self.player_miss = []
+        self.player_ships_found = 0
+        self.player_boats = self.generate_random_ships()
+
+        self.comp_hit = []
+        self.comp_miss = []
+        self.comp_ships_found = 0
+        self.comp_boats = self.generate_random_ships()
 
     def generate_random_ships(self):
         boats = set()
@@ -31,27 +36,56 @@ class Board:
         return 5 * row + col
 
     def check_shot(self, shot):
-        if shot in self.boats:
-            self.boats.remove(shot)
-            self.hit.append(shot)
-            self.ships_found += 1
-            print(f"That was a HIT! Total ships found: {self.ships_found}\n")
+        if shot in self.comp_boats:
+            self.comp_boats.remove(shot)
+            self.player_hit.append(shot)
+            self.player_ships_found += 1
+            print(f"That was a HIT! Total ships found by you: {self.player_ships_found}\n")
             return True
         else:
-            self.miss.append(shot)
-            print(f"\nThat was a MISS! Total ships found: {self.ships_found}\n")
+            self.player_miss.append(shot)
+            print(f"\nThat was a MISS! Total ships found by you: {self.player_ships_found}\n")
             return False
 
-    def display_board(self):
-        print(f"\n THE BATTLEFIELD \n")
+    def check_comp_shot(self, shot):
+        if shot in self.player_boats:
+            self.player_boats.remove(shot)
+            self.comp_hit.append(shot)
+            self.comp_ships_found += 1
+            print(f"That was a HIT! Total ships found by the computer: {self.comp_ships_found}\n")
+            return True
+        else:
+            self.player_comp.append(shot)
+            print(f"\nThat was a MISS! Total ships found by the computer: {self.comp_ships_found}\n")
+            return False
+
+    def display_player_board(self):
+        print(f"\n YOUR BOARD \n")
         print("\n    0  1  2  3  4")
         for x in range(5):
             row = ""
             for y in range(5):
                 place = 5 * x + y
-                if place in self.hit:
+                if place in self.player_hit:
                     ch = " X "
-                elif place in self.miss:
+                elif place in self.player_miss:
+                    ch = " O "
+                else:
+                    ch = " * "
+                row += ch
+                place += 1
+            print(x, "", row)
+            
+    def display_comp_board(self):
+        print(f"\n COMPUTER'S BOARD \n")
+        print("\n    0  1  2  3  4")
+        for x in range(5):
+            row = ""
+            for y in range(5):
+                place = 5 * x + y
+                if place in self.comp_hit:
+                    ch = " X "
+                elif place in self.comp_miss:
                     ch = " O "
                 else:
                     ch = " * "
@@ -77,7 +111,8 @@ class Board:
 
         for i in range(turns_remaining):
             print(f"Turns left: {turns_remaining - i}")
-            self.display_board()
+            self.display_player_board()
+            self.display_comp_board()
             shot = self.get_shot()
 
             try:
@@ -89,16 +124,17 @@ class Board:
                     print("Incorrect coordinates. You have to pick a number between 0 and 4.")
                 else:
                     shot_result = self.check_shot(shot)
-                    if shot_result and self.ships_found == 3:
+                    if shot_result and self.player_ships_found == 3:
                         print("YOU WIN! Congratulations, you sank all ships!")
-                        user_input = input("Do you want to exit the game? (YES or NO) \n")
+                        user_input = input("Do you want to exit the game? (YES or NO) \n") 
                         if user_input.upper() == "YES":
                             return
             except ValueError:
                 print("Incorrect coordinates. Please enter your guess as a number.\n")
 
-        if len(self.boats) > 0:
-            print("GAME OVER! The computer sank all your ships...")
+        if len(self.comp_boats) > 0:
+            print("GAME OVER! Better luck next time...")
 
 board = Board()
 board.play_game()
+
