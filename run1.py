@@ -6,6 +6,7 @@ class Board:
         self.player_miss = []
         self.player_ships_found = 0
         self.player_boats = self.generate_random_ships()
+        self.player_attempts()
 
         self.comp_hit = []
         self.comp_miss = []
@@ -26,6 +27,9 @@ class Board:
                 if coordinate < 0 or coordinate > 4:
                     print(f"Incorrect coordinate. Choose a number between 0 - 4.")
                     continue
+                shot = 5 * coordinate + coordinate
+                if shot in self.player_attempts:
+                    print ("You already tried this coordinate. Try again.")
                 return coordinate
             except ValueError:
                 print("Incorrect coordinate. Please pick a valid coordinate.")
@@ -34,6 +38,7 @@ class Board:
         row = self.get_coordinate("Row")
         col = self.get_coordinate("Column")
         return 5 * row + col
+
 
     def check_shot(self, shot):
         if shot in self.comp_boats:
@@ -60,7 +65,7 @@ class Board:
             return False
 
     def display_player_board(self):
-        print(f"\n YOUR BOARD \n")
+        print(f"\n YOUR BOARD ")
         print("\n    0  1  2  3  4")
         for x in range(5):
             row = ""
@@ -70,14 +75,16 @@ class Board:
                     ch = " X "
                 elif place in self.player_miss:
                     ch = " O "
+                elif place in self.player_boats:
+                    ch = " @ "
                 else:
-                    ch = " * "
+                    ch = " · "
                 row += ch
                 place += 1
             print(x, "", row)
             
     def display_comp_board(self):
-        print(f"\n COMPUTER'S BOARD \n")
+        print(f"\n COMPUTER'S BOARD ")
         print("\n    0  1  2  3  4")
         for x in range(5):
             row = ""
@@ -88,7 +95,7 @@ class Board:
                 elif place in self.comp_miss:
                     ch = " O "
                 else:
-                    ch = " * "
+                    ch = " · "
                 row += ch
                 place += 1
             print(x, "", row)
@@ -119,8 +126,8 @@ class Board:
             print(f"Turns left: {turns_remaining - i}")
             self.display_player_board()
             self.display_comp_board()
-            shot = self.get_shot()
 
+            shot = self.get_shot()
             try:
                 if shot == "exit":
                     user_input = input("Do you want to exit the game? (YES or NO) \n")
@@ -129,16 +136,16 @@ class Board:
                 elif shot < 0 or shot > 24:
                     print("Incorrect coordinates. You have to pick a number between 0 and 4.")
                 else:
-                    shot_result = self.check_shot(shot)
-                    if shot_result and self.player_ships_found == 3:
+                    shot_result = self.check_comp_shot(shot)
+                    if shot_result and self.comp_ships_found == 3:
                         print("YOU WIN! Congratulations, you sank all ships!")
                         user_input = input("Do you want to exit the game? (YES or NO) \n") 
                         if user_input.upper() == "YES":
                             return
                 
                 comp_shot = self.comp_turn()
-                comp_shot_result = self.check_comp_shot(comp_shot)
-                if comp_shot_result and self.comp_ships_found == 3:
+                comp_shot_result = self.check_shot(comp_shot)
+                if comp_shot_result and self.player_ships_found == 3:
                     print("GAME OVER! The computer sank all your ships...")
                     return
 
