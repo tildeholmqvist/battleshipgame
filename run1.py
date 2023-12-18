@@ -8,29 +8,27 @@ class Board:
         self.boats = self.generate_random_ships()
 
     def generate_random_ships(self):
-        boats = []
+        boats = set()
         while len(boats) < 3:
             new_boat = random.randint(0, 24)
-            if new_boat not in boats:
-                boats.append(new_boat)
+            boats.add(new_boat)
         return boats
 
-    def get_shots(self):
+    def get_coordinate(self, dimension):
         while True:
             try:
-                row = int(input("\nPick a row (0-4): "))
-                if row < 0 or row > 4:
-                    print("Incorrect coordinates. You have to pick a row between 0 and 4.")
+                coordinate = int(input(f"Pick a {dimension} 0 - 4: "))
+                if coordinate < 0 or coordinate > 4:
+                    print(f"Incorrect coordinate. Choose a number between 0 - 4.")
                     continue
-                col = int(input("Pick a column (0-4): "))
-                if col < 0 or col > 4:
-                    print("Incorrect coordinates. You have to pick a column between 0 and 4.")
-                    continue
-
-                shot = 5 * row + col
-                return shot
+                return coordinate
             except ValueError:
-                print("Incorrect entry. Please enter your number.")
+                print("Incorrect coordinate. Please pick a valid coordinate.")
+    
+    def get_shot(self):
+        row = self.get_coordinate("Row")
+        col = self.get_coordinate("Column")
+        return 5 * row + col
 
     def check_shot(self, shot):
         if shot in self.boats:
@@ -41,15 +39,16 @@ class Board:
             return True
         else:
             self.miss.append(shot)
+            print(f"\nThat was a MISS! Total ships found: {self.ships_found}\n")
             return False
 
     def display_board(self):
         print(f"\n THE BATTLEFIELD \n")
-        print("    0  1  2  3  4 ")
-        place = 0
+        print("\n    0  1  2  3  4")
         for x in range(5):
             row = ""
             for y in range(5):
+                place = 5 * x + y
                 if place in self.hit:
                     ch = " X "
                 elif place in self.miss:
@@ -66,7 +65,7 @@ class Board:
         print(f"WELCOME {player_name}! Are you ready for a game of Battleship?")
         print("\n")
 
-        print("You have a total of 10 turns to sink 3 hidden ships.")
+        print("You have a total of 20 turns to sink 3 hidden ships.")
         print("Guess a row and a column between 0 and 4.")
         print("If you HIT a ship you will see X, if you miss a ship you will see O.")
         print("If you want to quit the game, type 'exit'.")
@@ -74,12 +73,12 @@ class Board:
         print("GOOD LUCK!")
         print("\n")
 
-        turns_remaining = 10
+        turns_remaining = 20
 
         for i in range(turns_remaining):
             print(f"Turns left: {turns_remaining - i}")
             self.display_board()
-            shot = self.get_shots()
+            shot = self.get_shot()
 
             try:
                 if shot == "exit":
