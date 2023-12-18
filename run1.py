@@ -100,45 +100,38 @@ class Board:
             print(x, "", row)
     
     def comp_turn(self):
-        guess = random.randint(0, 24)
+        guess = random.choice(list(self.player_attempts))
         while guess in self.comp_hit or guess in self.comp_miss:
-            guess = random.randint(0, 24)
+            guess = random.choice(list(self.player_attempts))
         return guess
 
     def play_game(self):
-        player_name = input("\nHello There! Please enter your username: ")
-        print(f"WELCOME {player_name}! Are you ready for a game of Battleship?")
-        print("\nYou have a total of 20 turns to sink 3 hidden ships.")
-        print("Guess a row and a column between 0 and 4.")
-        print("If you HIT a ship, you will see 'X'. If you miss a ship, you will see '*'.")
-        print("\nIf you want to quit the game, type 'exit'.\nGOOD LUCK!\n")
+        self.welcome_message()
 
-        for i in range(20):
-            print(f"Turns left: {20- _ + 1}")
-            self.display_player_board()
-            self.display_comp_board()
+        turns_remaining = 20
+
+        for i in range(turns_remaining):
+            print(f"Turns left: {turns_remaining - i}")
+            self.display_boards()
+            
 
             shot = self.get_shot()
             try:
                 if shot == "exit":
-                    user_input = input("Do you want to exit the game? (YES or NO) \n")
-                    if user_input.lower() == "YES":
-                        print("Exiting the game...")
-                        return
+                    if self.exit_game():
+                        return                   
                 elif shot < 0 or shot > 24:
                     print("Incorrect coordinates. You have to pick a number between 0 and 4.")
                 else:
-                    shot_result = self.check_comp_shot(shot)
-                    if shot_result and self.comp_ships_found == 3:
-                        print("YOU WIN! Congratulations, you sank all ships!")
-                        user_input = input("Do you want to exit the game? (YES or NO) \n") 
-                        if user_input.lower() == "YES":
-                            return
-                
+                    self.get_players_shot(shot)
+                    if self.comp_ships_found == 3:
+                        self.end_game("YOU WIN! Congratulations, you sank all ships!")
+                        return
+
                 comp_shot = self.comp_turn()
-                comp_shot_result = self.check_shot(comp_shot)
-                if comp_shot_result and self.player_ships_found == 3:
-                    print("GAME OVER! The computer sank all your ships...")
+                self.get_comp_shot(comp_shot)
+                if self.player_ships_found == 3:
+                    self.end_game("GAME OVER! The computer sank all your ships...")
                     return
 
             except ValueError:
@@ -146,7 +139,41 @@ class Board:
 
         if len(self.comp_boats) > 0:
             print("GAME OVER! Better luck next time...")
+    
+    def welcome_message(self):
+        player_name = input("\nHello There! Please enter your username: ")
+        print(f"\nWELCOME {player_name}! Are you ready for a game of Battleship?")
+        print("\nYou have a total of 20 turns to sink 3 hidden ships.")
+        print("Guess a row and a column between 0 and 4.")
+        print("If you HIT a ship, you will see 'X'.")
+        print("If you miss a ship, you will see '*'.")
+        print("\nIf you want to quit the game, type 'exit'.\nGOOD LUCK!\n")
+    
+    def display_boards(self):
+        self.display_player_board()
+        self.display_comp_board()
+    
+    def get_players_shot(self,shot):
+        shot_result = self.check_comp_shot(shot)
+        if shot_result and self.comp_ships_found == 3:
+            print("YOU WIN! Congratulations, you sank all ships!")
+            if self.exit_game():
+                return
+    
+    def get_comp_shot(self, comp_shot):
+        comp_shot_result = self.check_comp_shot(comp_shot)
+        if comp_shot and self.player_ships_found == 3:
+            print("GAME OVER! The computer sank all your ships...")
+            return
+
+    def end_game(self, message):
+        print(message)
+        if self.exit_game():
+            return
+
+    def exit_game(self):
+        user_input = input("Do you want to exit the game? (YES or NO) \n")
+        return user_input.upper() == "YES"
 
 board = Board()
 board.play_game()
-
