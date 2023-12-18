@@ -6,7 +6,7 @@ class Board:
         self.player_miss = []
         self.player_ships_found = 0
         self.player_boats = self.generate_random_ships()
-        self.player_attempts()
+        self.player_attempts = set()
 
         self.comp_hit = []
         self.comp_miss = []
@@ -14,37 +14,36 @@ class Board:
         self.comp_boats = self.generate_random_ships()
 
     def generate_random_ships(self):
-        boats = set()
-        while len(boats) < 3:
-            new_boat = random.randint(0, 24)
-            boats.add(new_boat)
-        return boats
+        return random.sample(range(25), 3)
 
     def get_coordinate(self, dimension):
         while True:
             try:
                 coordinate = int(input(f"Pick a {dimension} 0 - 4: "))
-                if coordinate < 0 or coordinate > 4:
+                if coordinate not in range(5):
                     print(f"Incorrect coordinate. Choose a number between 0 - 4.")
                     continue
-                shot = 5 * coordinate + coordinate
-                if shot in self.player_attempts:
-                    print ("You already tried this coordinate. Try again.")
                 return coordinate
             except ValueError:
                 print("Incorrect coordinate. Please pick a valid coordinate.")
     
     def get_shot(self):
-        row = self.get_coordinate("Row")
-        col = self.get_coordinate("Column")
-        return 5 * row + col
+        while True:
+            row = self.get_coordinate("Row")
+            col = self.get_coordinate("Column")
+            coordinate = 5 * row + col
 
+            if coordinate in self.player_attempts:
+                print ("You already tried this coordinate. Try again.")
+            else:
+                self.player_attempts.add(coordinate)
+                return coordinate
 
     def check_shot(self, shot):
         if shot in self.comp_boats:
             self.comp_boats.remove(shot)
             self.player_hit.append(shot)
-            self.player_ships_found += 1
+            self.comp_ships_found += 1
             print(f"That was a HIT! Total ships found by you: {self.player_ships_found}\n")
             return True
         else:
@@ -56,7 +55,7 @@ class Board:
         if shot in self.player_boats:
             self.player_boats.remove(shot)
             self.comp_hit.append(shot)
-            self.comp_ships_found += 1
+            self.player_ships_found += 1
             print(f"That was a HIT! Total ships found by the computer: {self.comp_ships_found}\n")
             return True
         else:
@@ -74,7 +73,7 @@ class Board:
                 if place in self.player_hit:
                     ch = " X "
                 elif place in self.player_miss:
-                    ch = " O "
+                    ch = " * "
                 elif place in self.player_boats:
                     ch = " @ "
                 else:
@@ -93,7 +92,7 @@ class Board:
                 if place in self.comp_hit:
                     ch = " X "
                 elif place in self.comp_miss:
-                    ch = " O "
+                    ch = " * "
                 else:
                     ch = " · "
                 row += ch
@@ -108,22 +107,14 @@ class Board:
 
     def play_game(self):
         player_name = input("\nHello There! Please enter your username: ")
-        print("\n")
         print(f"WELCOME {player_name}! Are you ready for a game of Battleship?")
-        print("\n")
-
-        print("You have a total of 20 turns to sink 3 hidden ships.")
+        print("\nYou have a total of 20 turns to sink 3 hidden ships.")
         print("Guess a row and a column between 0 and 4.")
-        print("If you HIT a ship you will see X, if you miss a ship you will see O.")
-        print("If you want to quit the game, type 'exit'.")
-        print("\n")
-        print("GOOD LUCK!")
-        print("\n")
+        print("If you HIT a ship, you will see 'X'. If you miss a ship, you will see '*'.")
+        print("\nIf you want to quit the game, type 'exit'.\nGOOD LUCK!\n")
 
-        turns_remaining = 20
-
-        for i in range(turns_remaining):
-            print(f"Turns left: {turns_remaining - i}")
+        for i in range(20):
+            print(f"Turns left: {20- _ + 1}")
             self.display_player_board()
             self.display_comp_board()
 
@@ -131,7 +122,8 @@ class Board:
             try:
                 if shot == "exit":
                     user_input = input("Do you want to exit the game? (YES or NO) \n")
-                    if user_input.upper() == "YES":
+                    if user_input.lower() == "YES":
+                        print("Exiting the game...")
                         return
                 elif shot < 0 or shot > 24:
                     print("Incorrect coordinates. You have to pick a number between 0 and 4.")
@@ -140,7 +132,7 @@ class Board:
                     if shot_result and self.comp_ships_found == 3:
                         print("YOU WIN! Congratulations, you sank all ships!")
                         user_input = input("Do you want to exit the game? (YES or NO) \n") 
-                        if user_input.upper() == "YES":
+                        if user_input.lower() == "YES":
                             return
                 
                 comp_shot = self.comp_turn()
