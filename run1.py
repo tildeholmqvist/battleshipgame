@@ -1,10 +1,6 @@
 import random
 
 class Board:
-    """
-    This is the main class. This sets the structure of the game and includes
-    methods for actually playing the game.
-    """
     def __init__(self):
         self.hit = []
         self.miss = []
@@ -13,8 +9,8 @@ class Board:
 
     def generate_random_ships(self):
         boats = []
-        while len(boats) <:3
-            new_boat = random.randint(0,48)
+        while len(boats) < 3:
+            new_boat = random.randint(0, 24)
             if new_boat not in boats:
                 boats.append(new_boat)
         return boats
@@ -22,34 +18,32 @@ class Board:
     def get_shots(self):
         while True:
             try:
-                row = int(input("\nPick a row (0-4):")) 
+                row = int(input("\nPick a row (0-4): "))
                 if row < 0 or row > 4:
                     print("Incorrect coordinates. You have to pick a row between 0 and 4.")
                     continue
-                col = int(input("Pick a column (0-4):"))  
+                col = int(input("Pick a column (0-4): "))
                 if col < 0 or col > 4:
                     print("Incorrect coordinates. You have to pick a column between 0 and 4.")
                     continue
 
-                shot = 5 * row + col  
-
-                else:
-                    return shot
+                shot = 5 * row + col
+                return shot
             except ValueError:
-                print("Incorrect entry, Please enter your number.")
+                print("Incorrect entry. Please enter your number.")
 
     def check_shot(self, shot):
         if shot in self.boats:
             self.boats.remove(shot)
             self.hit.append(shot)
             self.ships_found += 1
-            print (f"That was a HIT! Total ships found: {self.ships_found}\n")
+            print(f"That was a HIT! Total ships found: {self.ships_found}\n")
             return True
         else:
             self.miss.append(shot)
             return False
 
-        def display_board(self):
+    def display_board(self):
         print(f"\n THE BATTLEFIELD \n")
         print("    0  1  2  3  4 ")
         place = 0
@@ -67,95 +61,45 @@ class Board:
             print(x, "", row)
 
     def play_game(self):
-        player_name = input("Enter your username: ")
+        player_name = input("\nHello There! Please enter your username: ")
         print("\n")
         print(f"WELCOME {player_name}! Are you ready for a game of Battleship?")
         print("\n")
 
         print("You have a total of 10 turns to sink 3 hidden ships.")
         print("Guess a row and a column between 0 and 4.")
-        print("If you HIT a ship you will see X, if you miss a ship you will see 0.")
+        print("If you HIT a ship you will see X, if you miss a ship you will see O.")
         print("If you want to quit the game, type 'exit'.")
+        print("\n")
         print("GOOD LUCK!")
         print("\n")
 
         turns_remaining = 10
 
         for i in range(turns_remaining):
-            
+            print(f"Turns left: {turns_remaining - i}")
+            self.display_board()
+            shot = self.get_shots()
 
-
-    def welcome(self):
-        """
-        Welcome the user by a welcome message and ask them for their username
-        """
-        print("WELCOME PLAYER!")
-        print("Are you ready for a game of Battleship?\n")
-        while True:
-            username = input("Please enter your name to begin the game: \n")
-
-            if len(username) == 0:
-                print("Username must contain letters or numbers.\n")
-            else:
-                break
-        print(f"\nHello {username}, let's start the game!\n")
-
-    def ship_position(self):
-        for _ in range(self.num_ships):
-            while True:
-                ship_row = randint(0, self.size - 1)
-                ship_col = randint(0, self.size - 1)
-                if self.board[ship_row][ship_col] == "0":
-                    self.ships.append((ship_row, ship_col))
-                    break
-    
-    def computer_shot(self, guesses, player_board):
-        while True:
-            comp_row = randint(0, self.size -1)
-            comp_col = randint(0, self.size -1)
-            comp_shot = 5 * comp_row + comp_col
-
-            if comp_shot not in guesses:
-                guesses.append(comp_shot)
-                if comp_shot in player_board.ships:
-                    print("\n The computer HIT your ship!")
-                    player_board.ships.remove(comp_shot)
-                    return True
+            try:
+                if shot == "exit":
+                    user_input = input("Do you want to exit the game? (YES or NO) \n")
+                    if user_input.upper() == "YES":
+                        return
+                elif shot < 0 or shot > 24:
+                    print("Incorrect coordinates. You have to pick a number between 0 and 4.")
                 else:
-                    print("\n The computer MISSED!")
-                    return False
-    
-    def check_score(self):
-        return len(self.ships) == 0
-    
+                    shot_result = self.check_shot(shot)
+                    if shot_result and self.ships_found == 3:
+                        print("YOU WIN! Congratulations, you sank all ships!")
+                        user_input = input("Do you want to exit the game? (YES or NO) \n")
+                        if user_input.upper() == "YES":
+                            return
+            except ValueError:
+                print("Incorrect coordinates. Please enter your guess as a number.\n")
 
-size = 5
-num_ships = 3
-player_board = Board(size, num_ships, "player")
-computer_board = Board(size, num_ships, "computer")
+        if len(self.boats) > 0:
+            print("GAME OVER! The computer sank all your ships...")
 
-
-player_board.welcome()
-player_board.ship_position()
-computer_board.ship_position()
-
-player_board.display_board([], [], show_ships = True)
-computer_board.display_board([], [])
-
-player_guesses = [] 
-computer_guesses = []
-
-while True:
-    player_shot_result = player_board.player_shot(player_guesses, computer_board)
-    player_board.display_board(player_guesses, computer_guesses)
-
-    if player_board.check_score():
-        print("\nYou WIN! Congratulations, you sank all the computers ships!")
-        break
-
-    computer_shot_result = computer_board.computer_shot(computer_guesses, player_board)
-    player_board.display_board(player_guesses, computer_guesses)
-
-    if computer_board.check_score():
-        print("\n You lost... The computer sank all your ships.")
-        break
+board = Board()
+board.play_game()
