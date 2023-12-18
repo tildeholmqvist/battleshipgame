@@ -89,8 +89,8 @@ class Board:
     def check_score(self):
         return len(self.ships) == 0
     
-    def display_board(self, hit, miss):
-        print("\n THE BATTLEFIELD    \n")
+    def display_board(self, hit, miss, show_ships=False):
+        print(f"\n THE BATTLEFIELD - {self.name.upper()} \n")
         print("    0  1  2  3  4 ")
         place = 0
         for x in range(5):
@@ -118,23 +118,29 @@ player_board.welcome()
 player_board.ship_position()
 computer_board.ship_position()
 
-player_board.display_board([], [])
+player_board.display_board([], [], show_ships = True)
 computer_board.display_board([], [])
 
 player_guesses = [] 
 computer_guesses = []
 
 while True:
-    player_shot_result = player_board.player_shot(player_guesses, computer_board)
     player_board.display_board(player_guesses, computer_guesses)
+    player_shot_result = player_board.player_shot(player_guesses, computer_board)
+    
+    if player_shot_result:
+        scores["player"] += 1
 
     if player_board.check_score():
         print("\nYou WIN! Congratulations, you sank all the computers ships!")
         break
 
+    computer_board.display_board(player_guesses, computer_guesses)
     computer_shot_result = computer_board.computer_shot(computer_guesses, player_board)
-    player_board.display_board(player_guesses, computer_guesses)
 
-    if computer_board.check_score():
+    if computer_shot_result:
+        scores["computer"] += 1
+    
+    if player_board.check_score():
         print("\n You lost... The computer sank all your ships.")
         break
