@@ -96,18 +96,17 @@ class Board:
         for x in range(5):
             row = ""
             for y in range(5):
-                if place in hit:
-                    ch = " X "
+                if (x, y) in self.ships:
+                    ch = "@"
+                elif place in hit:
+                    ch = "X"
                 elif place in miss:
-                    ch = " O "
+                    ch = "0"
                 else:
-                    ch = " * "
+                    ch = "*"
                 row += ch
                 place += 1
             print(x, "", row)
-
-
-
 
 size = 5
 num_ships = 3
@@ -120,6 +119,7 @@ player_board.ship_position()
 computer_board.ship_position()
 
 player_board.display_board([], [])
+computer_board.display_board([], [])
 
 player_guesses = [] 
 computer_guesses = []
