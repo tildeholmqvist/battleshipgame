@@ -97,13 +97,13 @@ class Board:
             row = ""
             for y in range(5):
                 if (x, y) in self.ships:
-                    ch = "@"
+                    ch = " @ "
                 elif place in hit:
-                    ch = "X"
+                    ch = " X "
                 elif place in miss:
                     ch = "0"
                 else:
-                    ch = "*"
+                    ch = " * "
                 row += ch
                 place += 1
             print(x, "", row)
