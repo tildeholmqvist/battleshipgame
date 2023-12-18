@@ -24,7 +24,7 @@ class Board:
         print("WELCOME PLAYER!")
         print("Are you ready for a game of Battleship?\n")
         while True:
-            username = input("Please enter your name to begin the game.\n")
+            username = input("Please enter your name to begin the game: \n")
 
             if len(username) == 0:
                 print("Username must contain letters or numbers.\n")
@@ -40,25 +40,8 @@ class Board:
                 if self.board[ship_row][ship_col] == "0":
                     self.ships.append((ship_row, ship_col))
                     break
-
-    def display_board(self, hit, miss):
-        print("\n THE BATTLEFIELD    \n")
-        print("    0  1  2  3  4 ")
-        place = 0
-        for x in range(5):
-            row = ""
-            for y in range(5):
-                if place in hit:
-                    ch = " X "
-                elif place in miss:
-                    ch = " O "
-                else:
-                    ch = " * "
-                row += ch
-                place += 1
-            print(x, "", row)
     
-    def get_player_shot(self, guesses, computer_board):
+    def player_shot(self, guesses, computer_board):
         while True:
             try:
                 row = int(input("\nPick a row (0-4):"))  # Convert input to int
@@ -86,6 +69,42 @@ class Board:
                         return False
             except ValueError:
                 print("Please pick a valid number.")
+    
+    def computer_shot(self, guesses, player_board):
+        while True:
+            comp_row = randint(0, self.size -1)
+            comp_col = randint(0, self.size -1)
+            comp_shot = 5 * comp_row + comp_col
+
+            if comp_shot not in guesses:
+                guesses.append(comp_shot)
+                if comp_shot in player_board.ships:
+                    print("\n The computer HIT your ship!")
+                    player_board.ships.remove(comp_shot)
+                    return True
+                else:
+                    print("\n The computer MISSED!")
+                    return False
+    
+    def check_score(self):
+        return len(self.ships) == 0
+    
+    def display_board(self, hit, miss):
+        print("\n THE BATTLEFIELD    \n")
+        print("    0  1  2  3  4 ")
+        place = 0
+        for x in range(5):
+            row = ""
+            for y in range(5):
+                if place in hit:
+                    ch = " X "
+                elif place in miss:
+                    ch = " O "
+                else:
+                    ch = " * "
+                row += ch
+                place += 1
+            print(x, "", row)
 
 
 
@@ -98,15 +117,24 @@ computer_board = Board(size, num_ships, "computer")
 
 player_board.welcome()
 player_board.ship_position()
+computer_board.ship_position()
 
 player_board.display_board([], [])
 
-guesses = [] 
-player_shot_result = player_board.get_player_shot(guesses, computer_board)
+player_guesses = [] 
+computer_guesses = []
 
-if player_shot_result:
-    player_board.display_board([], [player_shot_result]) 
-else:
-    player_board.display_board([], [player_shot_result])
+while True:
+    player_shot_result = player_board.player_shot(player_guesses, computer_board)
+    player_board.display_board(player_guesses, computer_guesses)
 
-player_board.display_board([0, 1, 2], [3, 4, 5])
+    if player_board.check_score():
+        print("\nYou WIN! Congratulations, you sank all the computers ships!")
+        break
+
+    computer_shot_result = computer_board.computer_shot(computer_guesses, player_board)
+    player_board.display_board(player_guesses, computer_guesses)
+
+    if computer_board.check_score():
+        print("\n You lost... The computer sank all your ships.")
+        break
