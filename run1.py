@@ -55,7 +55,7 @@ class Board:
             print(f"That was a HIT! Total ships found by the computer: {self.comp_ships_found}\n")
             return True
         else:
-            self.player_comp.append(shot)
+            self.comp_miss.append(shot)
             print(f"\nThat was a MISS! Total ships found by the computer: {self.comp_ships_found}\n")
             return False
 
@@ -92,6 +92,12 @@ class Board:
                 row += ch
                 place += 1
             print(x, "", row)
+    
+    def comp_turn(self):
+        guess = random.randint(0, 24)
+        while guess in self.comp_hit or guess in self.comp_miss:
+            guess = random.randint(0, 24)
+        return guess
 
     def play_game(self):
         player_name = input("\nHello There! Please enter your username: ")
@@ -129,6 +135,13 @@ class Board:
                         user_input = input("Do you want to exit the game? (YES or NO) \n") 
                         if user_input.upper() == "YES":
                             return
+                
+                comp_shot = self.comp_turn()
+                comp_shot_result = self.check_comp_shot(comp_shot)
+                if comp_shot_result and self.comp_ships_found == 3:
+                    print("GAME OVER! The computer sank all your ships...")
+                    return
+
             except ValueError:
                 print("Incorrect coordinates. Please enter your guess as a number.\n")
 
