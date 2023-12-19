@@ -107,18 +107,21 @@ class Board:
 
     def play_game(self):
         player_name = input("\nHello There! Please enter your username: ")
-        print(f"WELCOME {player_name}! Are you ready for a game of Battleship?")
-        print("You have a total of 20 turns to sink 3 hidden ships.")
+        print(f"\nWELCOME {player_name}! Are you ready for a game of Battleship?")
+        print("\nYou have a total of 20 turns to sink 3 hidden ships.")
         print("Guess a row and a column between 0 and 4.")
-        print("If you HIT a ship, you will see 'X'. If you miss a ship, you will see '*'.")
-        print("If you want to quit the game, type 'exit'.\nGOOD LUCK!\n")
+        print("If you HIT a ship, you will see 'X'.")
+        print("If you miss a ship, you will see '*'.")
+        print("\nIf you want to quit the game, type 'exit'.\nGOOD LUCK!\n")
 
-        for _ in range(20):
-            print(f"Turns left: {20 - _ + 1}")
+        turns_remaining = 20
+    
+        for i in range(turns_remaining):
+            print(f"Turns left: {turns_remaining - i}")
             self.display_player_board()
             self.display_comp_board()
-
             shot = self.get_shot()
+
             try:
                 if shot == "exit":
                     user_input = input("Do you want to exit the game? (YES or NO) \n")
