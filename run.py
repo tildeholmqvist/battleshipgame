@@ -48,7 +48,7 @@ class Board:
             self.comp_boats.remove(shot)
             self.player_hit.append(shot)
             self.player_ships_found += 1
-            print(f"That was a HIT! Total ships found by you: {self.player_ships_found}\n")
+            print(f"\nThat was a HIT! Total ships found by you: {self.player_ships_found}\n")
             return True
         else:
             self.player_miss.append(shot)
@@ -121,6 +121,7 @@ class Board:
         print("Guess a row and a column between 0 and 4.")
         print("If you HIT a ship, you will see 'X'.")
         print("If you miss a ship, you will see '*'.")
+        print("Your ships is displayed as '@'.")
         print("\nIf you want to quit the game, type 'exit'.\nGOOD LUCK!\n")
 
         turns_remaining = 20
