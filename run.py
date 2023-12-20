@@ -43,7 +43,7 @@ class Board:
         if shot in self.comp_boats:
             self.comp_boats.remove(shot)
             self.player_hit.append(shot)
-            self.comp_ships_found += 1
+            self.player_ships_found += 1
             print(f"That was a HIT! Total ships found by you: {self.player_ships_found}\n")
             return True
         else:
@@ -55,7 +55,7 @@ class Board:
         if shot in self.player_boats:
             self.player_boats.remove(shot)
             self.comp_hit.append(shot)
-            self.player_ships_found += 1
+            self.comp_ships_found += 1
             print(f"That was a HIT! Total ships found by the computer: {self.comp_ships_found}\n")
             return True
         else:
@@ -70,9 +70,9 @@ class Board:
             row = ""
             for y in range(5):
                 place = 5 * x + y
-                if place in self.player_hit:
+                if place in self.comp_hit:
                     ch = " X "
-                elif place in self.player_miss:
+                elif place in self.comp_miss:
                     ch = " * "
                 elif place in self.player_boats:
                     ch = " @ "
@@ -89,9 +89,9 @@ class Board:
             row = ""
             for y in range(5):
                 place = 5 * x + y
-                if place in self.comp_hit:
+                if place in self.player_hit:
                     ch = " X "
-                elif place in self.comp_miss:
+                elif place in self.player_miss:
                     ch = " * "
                 else:
                     ch = " · "
@@ -110,13 +110,14 @@ class Board:
             player_name = input("\nHello There! Please enter your username: ")
             if player_name.strip():
                 break
-            else: print("You have to enter a username:")
-
+            else: print("Your username has to include a character.")
+       
         print(f"\nWELCOME {player_name}! Are you ready for a game of Battleship?")
         print("\nYou have a total of 20 turns to sink 3 hidden ships.")
         print("Guess a row and a column between 0 and 4.")
         print("If you HIT a ship, you will see 'X'.")
         print("If you miss a ship, you will see '*'.")
+        print("Your ships is marked as '@'.")
         print("\nIf you want to quit the game, type 'exit'.\nGOOD LUCK!\n")
 
         turns_remaining = 20
@@ -133,19 +134,21 @@ class Board:
                     if user_input.upper() == "YES":
                         print("Exiting the game...")
                         return
+                    else:
+                        continue
                 elif shot < 0 or shot > 24:
                     print("Incorrect coordinates. You have to pick a number between 0 and 4.")
                 else:
-                    shot_result = self.check_comp_shot(shot)
-                    if shot_result and self.comp_ships_found == 3:
+                    shot_result = self.check_shot(shot)
+                    if shot_result and self.player_ships_found > 2:
                         print("YOU WIN! Congratulations, you sank all ships!")
                         user_input = input("Do you want to exit the game? (YES or NO) \n") 
                         if user_input.upper() == "YES":
                             return
 
                 comp_shot = self.comp_turn()
-                comp_shot_result = self.check_shot(comp_shot)
-                if comp_shot_result and self.player_ships_found == 3:
+                comp_shot_result = self.check_comp_shot(comp_shot)
+                if comp_shot_result and self.comp_ships_found > 2:
                     print("GAME OVER! The computer sank all your ships...")
                     return
 
