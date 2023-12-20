@@ -106,7 +106,12 @@ class Board:
         return guess
 
     def play_game(self):
-        player_name = input("\nHello There! Please enter your username: ")
+        while True: 
+            player_name = input("\nHello There! Please enter your username: ")
+            if player_name.strip():
+                break
+            else: print("You have to enter a username:")
+
         print(f"\nWELCOME {player_name}! Are you ready for a game of Battleship?")
         print("\nYou have a total of 20 turns to sink 3 hidden ships.")
         print("Guess a row and a column between 0 and 4.")
