@@ -38,6 +38,10 @@ class Board:
             else:
                 self.player_attempts.add(coordinate)
                 return coordinate
+
+            if coordinate == "exit":
+                return "exit"
+
     
     def check_shot(self, shot):
         if shot in self.comp_boats:
@@ -111,13 +115,12 @@ class Board:
             if player_name.strip():
                 break
             else: print("Your username has to include a character.")
-       
+        
         print(f"\nWELCOME {player_name}! Are you ready for a game of Battleship?")
         print("\nYou have a total of 20 turns to sink 3 hidden ships.")
         print("Guess a row and a column between 0 and 4.")
         print("If you HIT a ship, you will see 'X'.")
         print("If you miss a ship, you will see '*'.")
-        print("Your ships is marked as '@'.")
         print("\nIf you want to quit the game, type 'exit'.\nGOOD LUCK!\n")
 
         turns_remaining = 20
@@ -134,8 +137,6 @@ class Board:
                     if user_input.upper() == "YES":
                         print("Exiting the game...")
                         return
-                    else:
-                        continue
                 elif shot < 0 or shot > 24:
                     print("Incorrect coordinates. You have to pick a number between 0 and 4.")
                 else:
