@@ -164,7 +164,8 @@ class Board:
                 shot = int(shot)
                 if shot < 0 or shot > 24:
                     print("Incorrect coordinates. You have to pick a number between 0 and 4.")
-            
+                    continue
+
                 else:
                     shot_result = self.check_shot(shot)
                     if shot_result and self.player_ships_found > 2:
