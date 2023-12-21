@@ -29,18 +29,39 @@ class Board:
 
     def get_shot(self):
         while True:
-            row = self.get_coordinate("Row")
-            col = self.get_coordinate("Column")
+            row_input = input("Pick a Row (0 - 4) or type 'exit' to quit: ")
+            if row_input.lower() == 'exit':
+                return 'exit'
+        
+            try:
+                row = int(row_input)
+                if row not in range(5):
+                    print("Incorrect coordinate. Choose a number between 0 - 4.")
+                    continue
+            except ValueError:
+                print("Incorrect input. Please enter a number or type 'exit'.")
+                continue
+
+            col_input = input("Pick a Column (0 - 4) or type 'exit' to quit: ")
+            if col_input.lower() == 'exit':
+                return 'exit'
+
+            try:
+                col = int(col_input)
+                if col not in range(5):
+                    print("Incorrect coordinate. Choose a number between 0 - 4.")
+                    continue
+            except ValueError:
+                print("Incorrect input. Please enter a number or type 'exit'.")
+                continue
+
             coordinate = 5 * row + col
 
             if coordinate in self.player_attempts:
-                print ("You already tried this coordinate. Try again.")
+                print("You already tried this coordinate. Try again.")
             else:
                 self.player_attempts.add(coordinate)
                 return coordinate
-
-            if coordinate == "exit":
-                return "exit"
 
     
     def check_shot(self, shot):
@@ -132,14 +153,19 @@ class Board:
             self.display_comp_board()
             shot = self.get_shot()
 
-            try:
-                if shot == "exit":
+            if shot == "exit":
                     user_input = input("Do you want to exit the game? (YES or NO) \n")
                     if user_input.upper() == "YES":
                         print("Exiting the game...")
                         return
-                elif shot < 0 or shot > 24:
+                    else: 
+                        continue
+            try:
+                shot = int(shot)
+                if shot < 0 or shot > 24:
                     print("Incorrect coordinates. You have to pick a number between 0 and 4.")
+                    continue
+
                 else:
                     shot_result = self.check_shot(shot)
                     if shot_result and self.player_ships_found > 2:
