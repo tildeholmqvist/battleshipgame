@@ -63,7 +63,6 @@ class Board:
                 self.player_attempts.add(coordinate)
                 return coordinate
 
-    
     def check_shot(self, shot):
         if shot in self.comp_boats:
             self.comp_boats.remove(shot)
@@ -141,7 +140,7 @@ class Board:
         print("\nYou have a total of 20 turns to sink 3 hidden ships.")
         print("Guess a row and a column between 0 and 4.")
         print("If you HIT a ship, you will see 'X'.")
-        print("If you miss a ship, you will see '*'.")
+        print("If you MISS a ship, you will see '*'.")
         print("Your ships is displayed as '@'.")
         print("\nIf you want to quit the game, type 'exit'.\nGOOD LUCK!\n")
 
@@ -158,7 +157,8 @@ class Board:
                     if user_input.upper() == "YES":
                         print("Exiting the game...")
                         return
-                    else: 
+                    else:
+                        turns_remaining += 1
                         continue
             try:
                 shot = int(shot)
@@ -170,14 +170,13 @@ class Board:
                     shot_result = self.check_shot(shot)
                     if shot_result and self.player_ships_found > 2:
                         print("YOU WIN! Congratulations, you sank all ships!")
-                        user_input = input("Do you want to exit the game? (YES or NO) \n") 
-                        if user_input.upper() == "YES":
-                            return
+                        return
 
                 comp_shot = self.comp_turn()
                 comp_shot_result = self.check_comp_shot(comp_shot)
                 if comp_shot_result and self.comp_ships_found > 2:
                     print("GAME OVER! The computer sank all your ships...")
+                    self.display_player_board()
                     return
 
             except ValueError:
@@ -186,5 +185,12 @@ class Board:
         if len(self.comp_boats) > 0:
             print("GAME OVER! Better luck next time...")
 
-board = Board()
-board.play_game()
+if __name__ == "__main__":
+    play_again = True
+    while play_again:
+        board = Board()
+        board.play_game()
+        user_play = input("Enter 'play' to start over, anything else to quit: ")
+        play_again = user_play.lower() in ['play']
+        if play_again is False:
+            print('Thanks for playing, see you soon...')
