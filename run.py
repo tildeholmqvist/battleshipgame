@@ -73,13 +73,13 @@ class Board:
             self.comp_boats.remove(shot)
             self.player_hit.append(shot)
             self.player_ships_found += 1
-            print(f"\nThat was a HIT!")
-            print("Total ships found by you: {self.player_ships_found}\n")
+            print("\nThat was a HIT!")
+            print(f"Total ships found by you: {self.player_ships_found}\n")
             return True
         else:
             self.player_miss.append(shot)
-            print(f"\nThat was a MISS!")
-            print("Total ships found by you: {self.player_ships_found}\n")
+            print("\nThat was a MISS!")
+            print(f"Total ships found by you: {self.player_ships_found}\n")
             return False
 
     def check_comp_shot(self, shot):
@@ -87,12 +87,12 @@ class Board:
             self.player_boats.remove(shot)
             self.comp_hit.append(shot)
             self.comp_ships_found += 1
-            print(f"\nThat was a HIT!")
+            print("\nThat was a HIT!")
             print(f"Ships found by the computer: {self.comp_ships_found}\n")
             return True
         else:
             self.comp_miss.append(shot)
-            print(f"\nThat was a MISS!")
+            print("\nThat was a MISS!")
             print(f"Ships found by the computer: {self.comp_ships_found}\n")
             return False
 
@@ -106,7 +106,7 @@ class Board:
                 if place in self.comp_hit:
                     ch = " X "
                 elif place in self.comp_miss:
-                    ch = " * "
+                    ch = " O "
                 elif place in self.player_boats:
                     ch = " @ "
                 else:
@@ -125,7 +125,7 @@ class Board:
                 if place in self.player_hit:
                     ch = " X "
                 elif place in self.player_miss:
-                    ch = " * "
+                    ch = " O "
                 else:
                     ch = " · "
                 row += ch
@@ -151,7 +151,7 @@ class Board:
         print("\nYou have a total of 20 turns to sink 3 hidden ships.")
         print("Guess a row and a column between 0 and 4.")
         print("If you HIT a ship, you will see 'X'.")
-        print("If you MISS a ship, you will see '*'.")
+        print("If you MISS a ship, you will see 'O'.")
         print("Your ships is displayed as '@'.")
         print("\nIf you want to quit the game, type 'exit'.\nGOOD LUCK!\n")
 
