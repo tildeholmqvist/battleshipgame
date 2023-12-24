@@ -21,22 +21,25 @@ class Board:
             try:
                 coordinate = int(input(f"Pick a {dimension} 0 - 4: "))
                 if coordinate not in range(5):
-                    print(f"Incorrect coordinate. Choose a number between 0 - 4.")
+                    print("Incorrect coordinate.")
+                    print("Choose a number between 0 - 4.")
                     continue
                 return coordinate
             except ValueError:
-                print("Incorrect coordinate. Please pick a valid coordinate.")
+                    print(f"Incorrect coordinate.")
+                    print("Choose a number between 0 - 4.")
 
     def get_shot(self):
         while True:
             row_input = input("Pick a Row (0 - 4) or type 'exit' to quit: ")
             if row_input.lower() == 'exit':
                 return 'exit'
-        
+
             try:
                 row = int(row_input)
                 if row not in range(5):
-                    print("Incorrect coordinate. Choose a number between 0 - 4.")
+                    print("Incorrect coordinate.")
+                    print("Choose a number between 0 - 4.")
                     continue
             except ValueError:
                 print("Incorrect input. Please enter a number or type 'exit'.")
@@ -49,7 +52,8 @@ class Board:
             try:
                 col = int(col_input)
                 if col not in range(5):
-                    print("Incorrect coordinate. Choose a number between 0 - 4.")
+                    print("Incorrect coordinate.")
+                    print("Choose a number between 0 - 4.")
                     continue
             except ValueError:
                 print("Incorrect input. Please enter a number or type 'exit'.")
@@ -68,11 +72,13 @@ class Board:
             self.comp_boats.remove(shot)
             self.player_hit.append(shot)
             self.player_ships_found += 1
-            print(f"\nThat was a HIT! Total ships found by you: {self.player_ships_found}\n")
+            print(f"\nThat was a HIT!") 
+            print("Total ships found by you: {self.player_ships_found}\n")
             return True
         else:
             self.player_miss.append(shot)
-            print(f"\nThat was a MISS! Total ships found by you: {self.player_ships_found}\n")
+            print(f"\nThat was a MISS!")
+            print("Total ships found by you: {self.player_ships_found}\n")
             return False
 
     def check_comp_shot(self, shot):
@@ -80,11 +86,13 @@ class Board:
             self.player_boats.remove(shot)
             self.comp_hit.append(shot)
             self.comp_ships_found += 1
-            print(f"That was a HIT! Total ships found by the computer: {self.comp_ships_found}\n")
+            print(f"\nThat was a HIT!")
+            print("Ships found by the computer: {self.comp_ships_found}\n")
             return True
         else:
             self.comp_miss.append(shot)
-            print(f"\nThat was a MISS! Total ships found by the computer: {self.comp_ships_found}\n")
+            print(f"\nThat was a MISS!")
+            print("Ships found by the computer: {self.comp_ships_found}\n")
             return False
 
     def display_player_board(self):
@@ -105,7 +113,7 @@ class Board:
                 row += ch
                 place += 1
             print(x, "", row)
-            
+
     def display_comp_board(self):
         print(f"\n COMPUTER'S BOARD ")
         print("\n    0  1  2  3  4")
@@ -122,7 +130,7 @@ class Board:
                 row += ch
                 place += 1
             print(x, "", row)
-            
+
     def comp_turn(self):
         guess = random.randint(0, 24)
         while guess in self.comp_hit or guess in self.comp_miss:
@@ -130,13 +138,15 @@ class Board:
         return guess
 
     def play_game(self):
-        while True: 
+        while True:
             player_name = input("\nHello There! Please enter your username: ")
             if player_name.strip():
                 break
-            else: print("Your username has to include a character.")
-        
-        print(f"\nWELCOME {player_name}! Are you ready for a game of Battleship?")
+            else:
+                print("Your username has to include a character.")
+
+        print(f"\nWELCOME {player_name}!")
+        print("Are you ready for a game of Battleship?")
         print("\nYou have a total of 20 turns to sink 3 hidden ships.")
         print("Guess a row and a column between 0 and 4.")
         print("If you HIT a ship, you will see 'X'.")
@@ -145,7 +155,7 @@ class Board:
         print("\nIf you want to quit the game, type 'exit'.\nGOOD LUCK!\n")
 
         turns_remaining = 20
-    
+
         for i in range(turns_remaining):
             print(f"Turns left: {turns_remaining - i}")
             self.display_player_board()
@@ -153,7 +163,7 @@ class Board:
             shot = self.get_shot()
 
             if shot == "exit":
-                    user_input = input("Do you want to exit the game? (YES or NO) \n")
+                user_input = input("Do you want to exit the game? (YES/NO)\n")
                     if user_input.upper() == "YES":
                         print("Exiting the game...")
                         return
@@ -163,7 +173,8 @@ class Board:
             try:
                 shot = int(shot)
                 if shot < 0 or shot > 24:
-                    print("Incorrect coordinates. You have to pick a number between 0 and 4.")
+                    print("Incorrect coordinate.")
+                    print("Choose a number between 0 - 4.")
                     continue
 
                 else:
@@ -180,7 +191,8 @@ class Board:
                     return
 
             except ValueError:
-                print("Incorrect coordinates. Please enter your guess as a number.\n")
+                print("Incorrect coordinates.")
+                print("Please enter your guess as a number.\n")
 
         if len(self.comp_boats) > 0:
             print("GAME OVER! Better luck next time...")
@@ -190,7 +202,8 @@ if __name__ == "__main__":
     while play_again:
         board = Board()
         board.play_game()
-        user_play = input("Enter 'play' to start over, anything else to quit: ")
+        user_play = input("Enter 'play' to start over,anything else to quit:")
         play_again = user_play.lower() in ['play']
         if play_again is False:
-            print('Thanks for playing, see you soon...')
+            print('Thank you for playing, see you soon...')
+            

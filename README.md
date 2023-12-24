@@ -1,4 +1,41 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# The Battleship Game
+
+The battleship game is a Python terminal game. 
+
+It is a game between a user and the computer, where the players is trying to beat the other in a game of battleship, by sinking all of the three ships in the opponents playboard. 
+
+The players have 20 turns each, and makes their shots by guessing different coordinates. 
+
+The game is runned in the Code Institutes mock terminal on Heroku.
+
+## How to play
+
+The game consists of two boards, one of each player. 
+The gameboards is marked with the numbers 0 - 4, both by row and column, as a tool to help the player shoot their shot. 
+
+On the players board you can see the ships as '@', and if one of the opponents hits a ship,
+the coordinate will be marked as a 'X', if they miss, the coordinate will be marked as a '*'.
+
+Each player have 20 turns to hit all three ships. 
+If the player wants to quit the game, thats also possible. 
+
+## Site Owner Goals 
+
+- To provide the user with a fun and simple game. 
+- To provide the user with a well functioned game thats easy to navigate through.
+- To let the user play again or have a rematch.
+
+## User Stories
+
+- ### As a first time user, I want to:
+
+  - As a first time user I want to easily understand the instructions of the game.
+  - As a first time user I want to be able to play a easy and fun game.
+  - As a first time user I want to see both my score and the computers score. 
+  - As a first time user I want to be able to quit the game.
+  - As a first time user I want to be able to play again, when the game is over. 
+
+
 
 Welcome,
 
