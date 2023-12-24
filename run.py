@@ -164,7 +164,7 @@ class Board:
 
             if shot == "exit":
                 user_input = input("Do you want to exit the game? (YES/NO)\n")
-                if user_input.lower() =="yes":
+                if user_input.lower() == "yes":
                     print("Exiting the game...")
                     return
                 else:
