@@ -1,5 +1,6 @@
 import random
 
+
 class Board:
     def __init__(self):
         self.player_hit = []
@@ -31,7 +32,7 @@ class Board:
 
     def get_shot(self):
         while True:
-            row_input = input("Pick a Row (0 - 4) or type 'exit' to quit: ")
+            row_input = input("\nPick a Row (0 - 4) or type 'exit' to quit:")
             if row_input.lower() == 'exit':
                 return 'exit'
 
@@ -45,7 +46,7 @@ class Board:
                 print("Incorrect input. Please enter a number or type 'exit'.")
                 continue
 
-            col_input = input("Pick a Column (0 - 4) or type 'exit' to quit: ")
+            col_input = input("Pick a Column (0 - 4) or type 'exit' to quit:")
             if col_input.lower() == 'exit':
                 return 'exit'
 
@@ -72,7 +73,7 @@ class Board:
             self.comp_boats.remove(shot)
             self.player_hit.append(shot)
             self.player_ships_found += 1
-            print(f"\nThat was a HIT!") 
+            print(f"\nThat was a HIT!")
             print("Total ships found by you: {self.player_ships_found}\n")
             return True
         else:
@@ -87,12 +88,12 @@ class Board:
             self.comp_hit.append(shot)
             self.comp_ships_found += 1
             print(f"\nThat was a HIT!")
-            print("Ships found by the computer: {self.comp_ships_found}\n")
+            print(f"Ships found by the computer: {self.comp_ships_found}\n")
             return True
         else:
             self.comp_miss.append(shot)
             print(f"\nThat was a MISS!")
-            print("Ships found by the computer: {self.comp_ships_found}\n")
+            print(f"Ships found by the computer: {self.comp_ships_found}\n")
             return False
 
     def display_player_board(self):
@@ -197,6 +198,7 @@ class Board:
         if len(self.comp_boats) > 0:
             print("GAME OVER! Better luck next time...")
 
+
 if __name__ == "__main__":
     play_again = True
     while play_again:
@@ -206,4 +208,3 @@ if __name__ == "__main__":
         play_again = user_play.lower() in ['play']
         if play_again is False:
             print('Thank you for playing, see you soon...')
-            
