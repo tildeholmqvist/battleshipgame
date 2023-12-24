@@ -26,8 +26,8 @@ class Board:
                     continue
                 return coordinate
             except ValueError:
-                    print(f"Incorrect coordinate.")
-                    print("Choose a number between 0 - 4.")
+                print(f"Incorrect coordinate.")
+                print("Choose a number between 0 - 4.")
 
     def get_shot(self):
         while True:
@@ -164,12 +164,12 @@ class Board:
 
             if shot == "exit":
                 user_input = input("Do you want to exit the game? (YES/NO)\n")
-                    if user_input.upper() == "YES":
-                        print("Exiting the game...")
-                        return
-                    else:
-                        turns_remaining += 1
-                        continue
+                if user_input.lower() =="yes":
+                    print("Exiting the game...")
+                    return
+                else:
+                    turns_remaining += 1
+                    continue
             try:
                 shot = int(shot)
                 if shot < 0 or shot > 24:
