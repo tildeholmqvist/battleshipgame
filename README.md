@@ -101,7 +101,7 @@ The flowchart was created before I started with the projects, so it might not be
 - If the user instead wants to restart the game they can type 'play'.
 - If the user doesn't want to restart the game they can press any key to exit the game.
 
-### Feauture Features
+### Future Features
 
 - To let the user pick how many ships they want and how big of a playboard. 
 - To let the player decide their size of ships and let them place them out themselfs.
@@ -135,7 +135,9 @@ option to restart the game, that function is placed outside of the Board Class.
 
 ## Bugs and Issues 
 
-### Remaining Bugs 
+No bugs or issues where found in the code. 
+
+### Future Improvements
 
 When the user wants to exit the game, they have to first type 'exit', before answering a control question asking if they really wants to quit the game. If the user then types 'yes', the print 'Exiting the game..' will be showed and logically the game would quit. 
 
