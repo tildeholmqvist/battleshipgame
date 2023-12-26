@@ -182,7 +182,7 @@ class Board:
                     shot_result = self.check_shot(shot)
                     if shot_result and self.player_ships_found > 2:
                         print("YOU WIN! Congratulations, you sank all ships!")
-                         self.display_comp_board()
+                        self.display_comp_board()
                         return
 
                 comp_shot = self.comp_turn()
