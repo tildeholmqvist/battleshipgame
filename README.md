@@ -8,6 +8,11 @@ The players have 20 turns each, and makes their shots by guessing different coor
 
 The game is runned in the Code Institutes mock terminal on Heroku.
 
+The live link can be found here: [The Battleship Game](https://battleshipgame-tilde-c1544b267fc4.herokuapp.com/).
+
+![Battleship - am i responsive](images/amiresponsive.png)
+
+
 ## How to play
 
 The game consists of two boards, one of each player. 
@@ -35,35 +40,140 @@ If the player wants to quit the game, thats also possible.
   - As a first time user I want to be able to quit the game.
   - As a first time user I want to be able to play again, when the game is over. 
 
+## Flowchart 
 
+To easily understand the logic and foundation of the game, I created this flowchart to use as a wireframe.
 
-Welcome,
+It helped me plan my project and especially when it came to validating the user input. 
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **March 14, 2023**
+The logic of the flowchart helped me figure out what kind of functions I wanted to create and how the different functions would interact with eachother.
 
-## Reminders
+The flowchart was created before I started with the projects, so it might not be exactly what I aimed for, but it's an easy tool to understand the buildup of the game.
 
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
+![Images of my flowchart](images/flowchart.png)
 
-## Creating the Heroku app
+## Features
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+#### Username Input & Instructions 
 
-1. `heroku/python`
-2. `heroku/nodejs`
+![Screenshot of the game](images/usernameandinstructions.png)
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+- Welcome message & asking the player to pick a username
+- Instructions of the game:
+  - How to play
+  - How the player can see if they hit their shot.
+  - How the player can see if they missed their shot.
+  - How the player can see their own ships displayed at their board.
+  - How to player can quit the game.
+  - How many turns the opponents have to sink all ships.
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+#### Random Board Generation
 
-Connect your GitHub repository and deploy as normal.
+![Random Board Generation](images/randomboard.png)
 
-## Constraints
+- Three ships are randomly placed on both boards.
+- The players own ships is showed as '@'.
+- The player can't see the ships at the computers board.
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+#### The game 
 
----
+![Validation of coordinates](images/coordinatevalid.png)
 
-Happy coding!
+- The player is being asked to pick a row (0-4) and a column (0-4) to make their shot.
+- When the player makes their shots by guessing coordinates, the coordination must be a valid input, otherwise an error message shows up. 
+
+![Message if it was a hit/miss](images/thatwasahitormiss.png)
+
+- A message telling the score board will be showed. 
+
+![Playboards during the game](images/playboards.png)
+
+- If one of the opponents hits a ship a 'X' will be showed.
+- If one of the opponents miss the ship a 'O' will be showed. 
+- A message displaying how many turns the opponents have left is showed and updated after each round.
+
+![an exit feature](images/exitgame.png)
+
+- Everytime the player is asked to pick a coordinate, the option to quit the game is also showed. 
+- The user choose to type 'exit' to quit the game.
+- If the user types 'exit', a question will appear, asking the user if they want to exit the game. 
+- If the user chooses to answer 'yes' to that question, the game will exit. 
+- If the user instead wants to restart the game they can type 'play'.
+- If the user doesn't want to restart the game they can press any key to exit the game.
+
+### Feauture Features
+
+- To let the user pick how many ships they want and how big of a playboard. 
+- To let the player decide their size of ships and let them place them out themselfs.
+- To create a leadboard.
+
+## Technologies Used
+ - Python
+
+## Data Model 
+
+In this game I am using a Board Class as my data model. 
+
+The Board Class includes all of the functions of the game such as the build ups of boardsize, shipsize, ship placements, the guesses of coordinates, if it was a hit or miss, the remaining turns, and all of the other details on how the game is played. 
+
+All of the game, including all the prints being showed for the player is inside the Board Class except for the
+option to restart the game, that function is placed outside of the Board Class. 
+
+## Testing 
+
+![Screenshot of PEP8 linter](images/pep8.png)
+- The game has been tested through the [PEP8](https://pep8ci.herokuapp.com/#) linter and had no errors. 
+- The players inputs have been manually tested on the Code Institute Heroku terminal and is working without any errors:
+  - Invalid Username
+    - Empty Character
+  - Invalid Coordinates
+    - A number lower than 0
+    - A number higher than 4
+    - A letter
+    - A word
+    - Empty Character
+
+## Bugs and Issues 
+
+### Remaining Bugs 
+
+When the user wants to exit the game, they have to first type 'exit', before answering a control question asking if they really wants to quit the game. If the user then types 'yes', the print 'Exiting the game..' will be showed and logically the game would quit. 
+
+But then another question is showed asking the user to restart the game or quit the game. 
+I wished that the last question would just ask the user to restart and not ask them to enter any key to quit the game, but when I tried to fix that bug I just ran into more bugs. So I decided to keep this bug unfixed and see it as a future feature instead. 
+
+![exit the game](images/exitgame.png)
+
+## Deployment
+
+This project was deployed using the Code Institute ,mock terminal for Heroku and the live link can be found here [The Battleship Game](https://battleshipgame-tilde-c1544b267fc4.herokuapp.com/).
+
+This steps were taken for the deployment:
+
+- Create an account or log in to Heroku.
+- On the dashboard, in the right corner click the button that says "New" and choose "Create New App".
+- Pick a name of the app. The name has to be unique because it can't match any other name being used.
+- Select your region, United States or Europe. 
+- "Create App".
+- On the menu at the top of the page, go to the Settings Tab.
+- Scroll down to Config Vars and click "Reveal Config Vars".
+- Add a new Config Var and enter PORT in the keybox and 8000 in the valuebox.
+- Under Config Vars you will find Buildpacks. 
+- Click "Add Buildpacks".
+- Select python.
+- Repeat this step but select nodejs. 
+- Important to know: The python has to be picked before the nodejs, if it is not you can change the order by click and drag to correct the order. 
+- Scroll back to the top of the page, to the menu and go to the Deploy Tab.
+- Select GitHub as the deployment method and confirm. 
+- Search for you repository name and connect that. 
+- Scroll down to the bottom of the page and there you can choose if you want the deploys to be Automatic or Manually. The Manually deployed branches needs redepolying each time the repository is updated. 
+- Click "View" to see the live site. 
+
+# Credits
+
+- [Love Sandwiches Project](https://github.com/tildeholmqvist/LoveSandwiches)
+- [W3Schools](https://www.w3schools.com/)
+- [Python Fiddle](http://pythonfiddle.com/battleships-game-in-python/)
+- [Stack Overflow](https://stackoverflow.com/)
+- Code Institute lessons and projects.
+- My mentor Antonio for his advice and support.
